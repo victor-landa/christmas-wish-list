@@ -1,0 +1,19 @@
+.wish-list-card {
+  background: var(--white);
+  margin: 12rem auto;
+  padding: 1rem 2rem;
+  width: fit-content;
+  border-radius: 0.5rem;
+}
+
+.wish-list-card__title {
+  color: var(--red);
+  font-family: 'Mountains of Christmas', cursive;
+  font-size: 4rem;
+  text-align: center;
+}
+
+.wish-list-card__items {
+  list-style: none;
+  padding: 0;
+}

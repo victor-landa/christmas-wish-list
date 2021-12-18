@@ -7,12 +7,17 @@
   --yellow: #f8b229;
 }
 
+* {
+  box-sizing: border-box;
+}
+
 body {
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
-  font-family: 'Montserrat', sans-serif;
-  margin: 0;
   background: var(--green);
+  font-family: 'Montserrat', sans-serif;
+  font-size: 16px;
+  margin: 0;
 }
 
 code {

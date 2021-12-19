@@ -9,7 +9,9 @@ export const List = () => {
     const input = document.querySelector<HTMLInputElement>('input[name="gift"]');
     if(input) {
       if(input.value.trim() !== '') {
-        setList([...list, input.value]);
+        if(!list.includes(input.value)) {
+          setList([...list, input.value.trim()]);
+        }
         input.value = '';
       }
     }
@@ -34,7 +36,7 @@ export const List = () => {
             <li className="wish-list-card__item" key={index}>- {item} <span className="wish-list-card__item-delete" data-item-name={item} onClick={handleDeleteItem}>x</span></li>
           )}
         </ul>
-      : <p className="wish-list-card__empty">Add your first gift</p>}
+      : <p className="wish-list-card__empty">Add your first gift. Don't be a Grinch!</p>}
       <form className="form" onSubmit={handleForm} autoComplete="off">
         <input className="form__input" type="text" name="gift" placeholder="New gift" required />
         <button className="form__button" type="submit">Add</button>

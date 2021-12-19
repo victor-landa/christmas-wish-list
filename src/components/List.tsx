@@ -15,12 +15,18 @@ export const List = () => {
     }
   }
 
+  const handleDeleteItem = (e: React.SyntheticEvent) => {
+    const target = e.target as HTMLSpanElement;
+    const name = target.dataset.itemName;
+    setList(list.filter(item => item !== name));
+  }
+
   return (
     <div className='wish-list-card'>
       <h1 className='wish-list-card__title'>Gifts</h1>
       <ul className='wish-list-card__items'>
         {list.map((item, index) =>
-          <li key={index}>- {item}</li>
+          <li className="wish-list-card__item" key={index}>- {item} <span onClick={handleDeleteItem} data-item-name={item} className="wish-list-card__item-delete">x</span></li>
         )}
       </ul>
       <form className='form' onSubmit={handleForm} autoComplete="off">

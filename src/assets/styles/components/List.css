@@ -35,7 +35,7 @@
   width: 100%;
 }
 
-.form__submit {
+.form__button {
   background: var(--red);
   border-radius: 0.25rem;
   border: none;
@@ -47,6 +47,10 @@
   padding: 0.5rem 1rem;
   text-transform: uppercase;
   width: 100%;
+}
+
+.form__button--clear {
+  margin: 0.5rem 0 0;
 }
 
 .wish-list-card__item {

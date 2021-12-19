@@ -28,11 +28,13 @@ export const List = () => {
   return (
     <div className="wish-list-card">
       <h1 className="wish-list-card__title">Gifts</h1>
-      <ul className="wish-list-card__items">
-        {list.map((item, index) =>
-          <li className="wish-list-card__item" key={index}>- {item} <span className="wish-list-card__item-delete" data-item-name={item} onClick={handleDeleteItem}>x</span></li>
-        )}
-      </ul>
+      {list.length > 0 ?
+        <ul className="wish-list-card__items">
+          {list.map((item, index) =>
+            <li className="wish-list-card__item" key={index}>- {item} <span className="wish-list-card__item-delete" data-item-name={item} onClick={handleDeleteItem}>x</span></li>
+          )}
+        </ul>
+      : <p className="wish-list-card__empty">Add your first gift</p>}
       <form className="form" onSubmit={handleForm} autoComplete="off">
         <input className="form__input" type="text" name="gift" placeholder="New gift" required />
         <button className="form__button" type="submit">Add</button>

@@ -68,3 +68,9 @@
   padding: 0.05rem 0.25rem;
   text-transform: uppercase;
 }
+
+.wish-list-card__empty {
+  color: var(--red);
+  font-size: 1.25rem;
+  text-align: center;
+}

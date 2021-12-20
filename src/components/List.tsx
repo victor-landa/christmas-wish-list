@@ -1,12 +1,14 @@
 import { useState } from 'react';
 import '../assets/styles/components/List.css';
 
+interface WishListItem {
+  title: string;
+  quantity: number;
+}
+
 export const List = () => {
-  const [list, setList] = useState([
-    {title: 'iPhone 13 Pro Max', quantity: 1},
-    {title: 'iPad Air', quantity: 3},
-    {title: 'Teclado mecánico', quantity: 1}
-  ]);
+  const localStorageList = localStorage.getItem('wish-list');
+  const [list, setList] = useState<Array<WishListItem>>(localStorageList ? JSON.parse(localStorageList) : []);
 
   const handleForm = (e: React.SyntheticEvent) => {
     e.preventDefault();
@@ -15,13 +17,14 @@ export const List = () => {
     if(inputTitle && inputQuantity) {
       if(inputTitle.value.trim() !== '') {
         let repeatedItem = false;
-        list.map(item => {
-          if(item.title == inputTitle.value) {
+        list.map(item=> {
+          if(item.title === inputTitle.value) {
             repeatedItem = true;
           }
         })
         if(!repeatedItem) {
           setList([...list, {title: inputTitle.value.trim(), quantity: Number(inputQuantity.value)}]);
+          localStorage.setItem('wish-list', JSON.stringify([...list, {title: inputTitle.value.trim(), quantity: Number(inputQuantity.value)}]));
         }
         inputTitle.value = '';
         inputQuantity.value = '';
@@ -34,6 +37,7 @@ export const List = () => {
     const target = e.target as HTMLSpanElement;
     const title = target.dataset.itemTitle;
     setList(list.filter(item => item.title !== title));
+    localStorage.setItem('wish-list', JSON.stringify(list.filter(item => item.title !== title)));
   }
 
   const handleClearList = () => {
@@ -56,8 +60,6 @@ export const List = () => {
         <button className="form__button" type="submit">Add</button>
         <button className="form__button form__button--clear" type="button" onClick={handleClearList}>Clear</button>
       </form>
-
-      <pre style={{whiteSpace: 'normal'}}>{JSON.stringify(list)}</pre>
     </div>
   )
 }

@@ -21,7 +21,7 @@
   list-style: none;
   margin: 0;
   padding: 0;
-  row-gap: 0.5rem;
+  row-gap: 1rem;
 }
 
 .form {
@@ -37,7 +37,7 @@
   width: 100%;
 }
 
-.form__input--quantity {
+.form__input--below {
   margin-top: 0.5rem;
 }
 
@@ -81,4 +81,17 @@
   font-size: 1.25rem;
   margin: 0;
   text-align: center;
+}
+
+.wish-list-card__item-info {
+  align-items: center;
+  column-gap: 10px;
+  display: flex;
+}
+
+.wish-list-card__item-image {
+  display: block;
+  height: 50px;
+  object-fit: cover;
+  width: 50px;
 }

@@ -72,8 +72,7 @@
   justify-content: space-between;
 }
 
-.wish-list-card__item-delete {
-  background: var(--red-2);
+.wish-list-card__action {
   border-radius: 0.25rem;
   color: var(--white);
   cursor: pointer;
@@ -81,6 +80,14 @@
   padding: 0.05rem 0.25rem;
   text-transform: uppercase;
   user-select: none;
+}
+
+.wish-list-card__action--delete {
+  background: var(--red-2);
+}
+
+.wish-list-card__action--edit {
+  background: var(--gray-3);
 }
 
 .wish-list-card__empty {
@@ -111,4 +118,9 @@
 .wish-list-card__item-recipient {
   color: var(--gray-2);
   font-size: 0.85rem;
+}
+
+.wish-list-card__actions {
+  display: flex;
+  column-gap: 0.5rem;
 }

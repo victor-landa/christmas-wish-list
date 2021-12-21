@@ -102,3 +102,13 @@
   object-fit: cover;
   width: 50px;
 }
+
+.wish-list-card__item-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.wish-list-card__item-recipient {
+  color: var(--gray-2);
+  font-size: 0.85rem;
+}

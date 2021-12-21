@@ -5,6 +5,7 @@ import '../assets/styles/components/List.css';
 
 interface WishListItem {
   title: string;
+  recipient: string;
   quantity: number;
   source: string;
 }
@@ -18,10 +19,11 @@ export const List = () => {
   const handleForm = (e: React.SyntheticEvent) => {
     e.preventDefault();
     const inputTitle = document.querySelector<HTMLInputElement>('input[name="gift"]');
+    const inputRecipient = document.querySelector<HTMLInputElement>('input[name="recipient"]');
     const inputQuantity = document.querySelector<HTMLInputElement>('input[name="quantity"]');
     const inputSource = document.querySelector<HTMLInputElement>('input[name="source"]');
-    if(inputTitle && inputQuantity && inputSource) {
-      if(inputTitle.value.trim() !== '' && inputSource.value.trim() !== '') {
+    if(inputTitle && inputRecipient && inputQuantity && inputSource) {
+      if(inputTitle.value.trim() !== '' && inputRecipient.value.trim() !== '' && inputSource.value.trim() !== '') {
         let repeatedItem = false;
         list.map(item=> {
           if(item.title === inputTitle.value) {
@@ -29,11 +31,27 @@ export const List = () => {
           }
         })
         if(!repeatedItem) {
-          setList([...list, {title: inputTitle.value.trim(), quantity: Number(inputQuantity.value), source: inputSource.value.trim()}]);
-          localStorage.setItem('wish-list', JSON.stringify([...list, {title: inputTitle.value.trim(), quantity: Number(inputQuantity.value), source: inputSource.value.trim()}]));
+          setList([
+            ...list,
+            {
+              title: inputTitle.value.trim(),
+              recipient: inputRecipient.value.trim(),
+              quantity: Number(inputQuantity.value),
+              source: inputSource.value.trim(),
+            }]);
+          localStorage.setItem('wish-list', JSON.stringify([
+            ...list,
+            {
+              title: inputTitle.value.trim(),
+              recipient: inputRecipient.value.trim(),
+              quantity: Number(inputQuantity.value),
+              source: inputSource.value.trim()
+            }
+          ]));
           handleToggleModal();
         }
         inputTitle.value = '';
+        inputRecipient.value = '';
         inputQuantity.value = '';
         inputSource.value = '';
         inputTitle.focus();
@@ -57,6 +75,7 @@ export const List = () => {
     return (
       <form className="form" onSubmit={handleForm} autoComplete="off">
         <input className="form__input" type="text" name="gift" placeholder="New gift" required />
+        <input className="form__input form__input--below" type="text" name="recipient" placeholder="This gift is to..." required />
         <input className="form__input form__input--below" type="number" min="1" name="quantity" placeholder="Quantity" required />
         <input className="form__input form__input--below" type="url" name="source" placeholder="Image link" pattern="https://.*" required />
         <button className="form__button" type="submit">Add</button>
@@ -80,7 +99,10 @@ export const List = () => {
               <li className="wish-list-card__item" key={index}>
                 <div className="wish-list-card__item-info">
                   <img className="wish-list-card__item-image" src={item.source} />
-                  - {item.title} ({item.quantity})
+                  <div className="wish-list-card__item-text">
+                    <span>{item.title} ({item.quantity})</span>
+                    <span className="wish-list-card__item-recipient">{item.recipient}</span>
+                  </div>
                 </div>
                 <span
                   className="wish-list-card__item-delete"

@@ -142,6 +142,10 @@ export const List = () => {
           source: ''
         });
       }
+      if(!modalState) {
+        const inputTitle = document.querySelector<HTMLInputElement>('input[name="title"]');
+        inputTitle?.focus();
+      }
     }, 250);
   }
 
@@ -164,13 +168,17 @@ export const List = () => {
                   <span
                     className="wish-list-card__action wish-list-card__action--edit"
                     data-item-title={item.title}
-                    onClick={handleEditItem}>
+                    onClick={handleEditItem}
+                    tabIndex={0}
+                    onKeyPress={(e) => e.key === 'Enter' && handleEditItem(e)}>
                     e
                   </span>
                   <span
                     className="wish-list-card__action wish-list-card__action--delete"
                     data-item-title={item.title}
-                    onClick={handleDeleteItem}>
+                    onClick={handleDeleteItem}
+                    tabIndex={0}
+                    onKeyPress={(e) => e.key === 'Enter' && handleDeleteItem(e)}>
                     x
                   </span>
                 </div>

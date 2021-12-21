@@ -1,0 +1,19 @@
+.overlay {
+  background-color: var(--black-opacity-50);
+  bottom: 0;
+  height: 100%;
+  left: 0;
+  opacity: 0;
+  position: fixed;
+  right: 0;
+  top: 0;
+  visibility: hidden;
+  width: 100%;
+  z-index: 2;
+  transition: all 250ms ease-in;
+}
+
+.overlay--active {
+  opacity: 1;
+  visibility: visible;
+}

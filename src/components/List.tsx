@@ -6,6 +6,7 @@ import '../assets/styles/components/List.css';
 
 interface WishListItem {
   title: string;
+  price: string;
   recipient: string;
   quantity: number;
   source: string;
@@ -18,6 +19,7 @@ export const List = () => {
   const [overlay, setOverlay] = useState(false);
   const [formValues, setFormValues] = useState<WishListItem>({
     title: '',
+    price: '',
     recipient: '',
     quantity: 1,
     source: ''
@@ -48,11 +50,12 @@ export const List = () => {
   const handleForm = (e: React.SyntheticEvent) => {
     e.preventDefault();
     const inputTitle = document.querySelector<HTMLInputElement>('input[name="title"]');
+    const inputPrice = document.querySelector<HTMLInputElement>('input[name="price"]');
     const inputRecipient = document.querySelector<HTMLInputElement>('input[name="recipient"]');
     const inputQuantity = document.querySelector<HTMLInputElement>('input[name="quantity"]');
     const inputSource = document.querySelector<HTMLInputElement>('input[name="source"]');
-    if(inputTitle && inputRecipient && inputQuantity && inputSource) {
-      if(inputTitle.value.trim() !== '' && inputRecipient.value.trim() !== '' && inputSource.value.trim() !== '') {
+    if(inputTitle && inputPrice && inputRecipient && inputQuantity && inputSource) {
+      if(inputTitle.value.trim() !== '' && inputPrice.value.trim() !== '' && inputRecipient.value.trim() !== '' && inputSource.value.trim() !== '') {
         let repeatedItem = false;
         list.map(item=> {
           if(item.title === inputTitle.value) {
@@ -62,6 +65,7 @@ export const List = () => {
         if(editMode) {
           if(typeof editedItem === 'number') {
             list[editedItem].title = inputTitle.value.trim();
+            list[editedItem].price = inputPrice.value.trim();
             list[editedItem].recipient = inputRecipient.value.trim();
             list[editedItem].quantity =Number(inputQuantity.value);
             list[editedItem].source = inputSource.value.trim();
@@ -74,6 +78,7 @@ export const List = () => {
               ...list,
               {
                 title: inputTitle.value.trim(),
+                price: inputPrice.value.trim(),
                 recipient: inputRecipient.value.trim(),
                 quantity: Number(inputQuantity.value),
                 source: inputSource.value.trim(),
@@ -82,6 +87,7 @@ export const List = () => {
               ...list,
               {
                 title: inputTitle.value.trim(),
+                price: inputPrice.value.trim(),
                 recipient: inputRecipient.value.trim(),
                 quantity: Number(inputQuantity.value),
                 source: inputSource.value.trim()
@@ -91,6 +97,7 @@ export const List = () => {
           }
         }
         inputTitle.value = '';
+        inputPrice.value = '';
         inputRecipient.value = '';
         inputQuantity.value = '';
         inputSource.value = '';
@@ -116,6 +123,7 @@ export const List = () => {
     if(selectedItem) {
       setFormValues({
         title: selectedItem.title,
+        price: selectedItem.price,
         recipient: selectedItem.recipient,
         quantity: selectedItem.quantity,
         source: selectedItem.source
@@ -141,6 +149,7 @@ export const List = () => {
     const giftTitle = randomGift();
     setFormValues({
       title: giftTitle,
+      price: formValues.title,
       recipient: formValues.recipient,
       quantity: formValues.quantity,
       source: formValues.source
@@ -152,6 +161,7 @@ export const List = () => {
       <form className="form" onSubmit={handleForm} autoComplete="off">
         <input className="form__input" type="text" name="title" value={formValues.title} onChange={handleInputChange} placeholder="New gift" required />
         <button className="form__button form__button--random-title" type="button" onClick={getRandomGiftTitle}>Get a random gift!</button>
+        <input className="form__input form__input--below" type="text" name="price" pattern="[0-9]+" value={formValues.price} onChange={handleInputChange} placeholder="Price" required />
         <input className="form__input form__input--below" type="text" name="recipient" value={formValues.recipient} onChange={handleInputChange} placeholder="This gift is to..." required />
         <input className="form__input form__input--below" type="number" min="1" name="quantity" value={formValues.quantity} onChange={handleInputChange} placeholder="Quantity" required />
         <input className="form__input form__input--below" type="url" name="source" value={formValues.source} onChange={handleInputChange} placeholder="Image link" pattern="https://.*" required />
@@ -169,6 +179,7 @@ export const List = () => {
         setEditMode(false);
         setFormValues({
           title: '',
+          price: '',
           recipient: '',
           quantity: 1,
           source: ''
@@ -192,7 +203,7 @@ export const List = () => {
                 <div className="wish-list-card__item-info">
                   <img className="wish-list-card__item-image" src={item.source} />
                   <div className="wish-list-card__item-text">
-                    <span>{item.title} ({item.quantity})</span>
+                    <span>{item.title} ({item.quantity}) - ${Number(item.price) * item.quantity}</span>
                     <span className="wish-list-card__item-recipient">{item.recipient}</span>
                   </div>
                 </div>

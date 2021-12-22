@@ -35,7 +35,7 @@ export const List = () => {
       } else {
         resolve([]);
       }
-    }, 800);
+    }, 250);
   });
 
   useEffect(() => {
@@ -192,42 +192,51 @@ export const List = () => {
     }, 250);
   }
 
+  const total = list.reduce((total, item) => {
+    return total + (Number(item.price) * item.quantity);
+  }, 0);
+
   return (
     <>
       <div className="wish-list-card">
         <h1 className="wish-list-card__title">Gifts</h1>
         {list.length > 0 && !loading ?
-          <ul className="wish-list-card__items">
-            {list.map((item, index) =>
-              <li className="wish-list-card__item" key={index}>
-                <div className="wish-list-card__item-info">
-                  <img className="wish-list-card__item-image" src={item.source} />
-                  <div className="wish-list-card__item-text">
-                    <span>{item.title} ({item.quantity}) - ${Number(item.price) * item.quantity}</span>
-                    <span className="wish-list-card__item-recipient">{item.recipient}</span>
+          <>
+            <ul className="wish-list-card__items">
+              {list.map((item, index) =>
+                <li className="wish-list-card__item" key={index}>
+                  <div className="wish-list-card__item-info">
+                    <img className="wish-list-card__item-image" src={item.source} />
+                    <div className="wish-list-card__item-text">
+                      <span>{item.title} ({item.quantity}) - ${Number(item.price) * item.quantity}</span>
+                      <span className="wish-list-card__item-recipient">{item.recipient}</span>
+                    </div>
                   </div>
-                </div>
-                <div className="wish-list-card__actions">
-                  <span
-                    className="wish-list-card__action wish-list-card__action--edit"
-                    data-item-title={item.title}
-                    onClick={handleEditItem}
-                    tabIndex={0}
-                    onKeyPress={(e) => e.key === 'Enter' && handleEditItem(e)}>
-                    e
-                  </span>
-                  <span
-                    className="wish-list-card__action wish-list-card__action--delete"
-                    data-item-title={item.title}
-                    onClick={handleDeleteItem}
-                    tabIndex={0}
-                    onKeyPress={(e) => e.key === 'Enter' && handleDeleteItem(e)}>
-                    x
-                  </span>
-                </div>
-              </li>
-            )}
-          </ul>
+                  <div className="wish-list-card__actions">
+                    <span
+                      className="wish-list-card__action wish-list-card__action--edit"
+                      data-item-title={item.title}
+                      onClick={handleEditItem}
+                      tabIndex={0}
+                      onKeyPress={(e) => e.key === 'Enter' && handleEditItem(e)}>
+                      e
+                    </span>
+                    <span
+                      className="wish-list-card__action wish-list-card__action--delete"
+                      data-item-title={item.title}
+                      onClick={handleDeleteItem}
+                      tabIndex={0}
+                      onKeyPress={(e) => e.key === 'Enter' && handleDeleteItem(e)}>
+                      x
+                    </span>
+                  </div>
+                </li>
+              )}
+            </ul>
+            <div className="wish-list-card__total-container">
+              <p className="wish-list-card__total">Total: ${total}</p>
+            </div>
+          </>
         : loading ? <p className="wish-list-card__message">Loading...</p> : <p className="wish-list-card__message">Add your first gift. Don't be a Grinch!</p>}
         <button className="form__button form__button--add" onClick={handleToggleModal}>Add gift</button>
         <button className="form__button form__button--clear" type="button" onClick={handleClearList}>Clear</button>

@@ -1,4 +1,4 @@
-import { useState, ChangeEvent } from 'react';
+import { useState, useEffect, ChangeEvent } from 'react';
 import { Modal } from './Modal';
 import { Overlay } from './Overlay';
 import '../assets/styles/components/List.css';
@@ -11,8 +11,8 @@ interface WishListItem {
 }
 
 export const List = () => {
-  const localStorageList = localStorage.getItem('wish-list');
-  const [list, setList] = useState<Array<WishListItem>>(localStorageList ? JSON.parse(localStorageList) : []);
+  const [list, setList] = useState<Array<WishListItem>>([]);
+  const [loading, setLoading] = useState(true);
   const [modalState, setModalState] = useState(false);
   const [overlay, setOverlay] = useState(false);
   const [formValues, setFormValues] = useState<WishListItem>({
@@ -23,6 +23,26 @@ export const List = () => {
   });
   const [editMode, setEditMode] = useState(false);
   const [editedItem, setEditedItem] = useState<Number>();
+
+  const listPromise = new Promise(resolve => {
+    setTimeout(() => {
+      const localStorageList = localStorage.getItem('wish-list');
+      if(localStorageList) {
+        resolve(localStorageList);
+      } else {
+        resolve([]);
+      }
+    }, 800);
+  });
+
+  useEffect(() => {
+    listPromise
+      .then(response => {
+        setList(typeof response === 'string' ? JSON.parse(response) : [] );
+        setLoading(false);
+      })
+      .catch(err => console.error(err));
+  }, []);
 
   const handleForm = (e: React.SyntheticEvent) => {
     e.preventDefault();
@@ -123,7 +143,7 @@ export const List = () => {
         <input className="form__input form__input--below" type="text" name="recipient" value={formValues.recipient} onChange={handleInputChange} placeholder="This gift is to..." required />
         <input className="form__input form__input--below" type="number" min="1" name="quantity" value={formValues.quantity} onChange={handleInputChange} placeholder="Quantity" required />
         <input className="form__input form__input--below" type="url" name="source" value={formValues.source} onChange={handleInputChange} placeholder="Image link" pattern="https://.*" required />
-        <button className="form__button" type="submit">{editMode ? 'Edit' :  'Add'}</button>
+        <button className="form__button" type="submit">{editMode ? 'Save' :  'Add'}</button>
         <button className="form__button form__button--close" type="button" onClick={handleToggleModal}>Close</button>
       </form>
     )
@@ -153,7 +173,7 @@ export const List = () => {
     <>
       <div className="wish-list-card">
         <h1 className="wish-list-card__title">Gifts</h1>
-        {list.length > 0 ?
+        {list.length > 0 && !loading ?
           <ul className="wish-list-card__items">
             {list.map((item, index) =>
               <li className="wish-list-card__item" key={index}>
@@ -185,7 +205,7 @@ export const List = () => {
               </li>
             )}
           </ul>
-        : <p className="wish-list-card__empty">Add your first gift. Don't be a Grinch!</p>}
+        : loading ? <p className="wish-list-card__message">Loading...</p> : <p className="wish-list-card__message">Add your first gift. Don't be a Grinch!</p>}
         <button className="form__button form__button--add" onClick={handleToggleModal}>Add gift</button>
         <button className="form__button form__button--clear" type="button" onClick={handleClearList}>Clear</button>
       </div>

@@ -11,7 +11,7 @@
   color: var(--red);
   font-family: 'Mountains of Christmas', cursive;
   font-size: 4rem;
-  margin-top: 0;
+  margin: 0 0 1rem;
   text-align: center;
 }
 
@@ -90,10 +90,10 @@
   background: var(--gray-3);
 }
 
-.wish-list-card__empty {
+.wish-list-card__message {
   color: var(--red);
   font-size: 1.25rem;
-  margin: 0;
+  margin: 1.5rem 0 1rem;
   text-align: center;
 }
 

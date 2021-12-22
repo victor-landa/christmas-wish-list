@@ -54,6 +54,10 @@
   width: 100%;
 }
 
+.form__button--random-title {
+  background: var(--red-2);
+}
+
 .form__button--close {
   background: var(--gray);
 }

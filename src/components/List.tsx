@@ -1,6 +1,7 @@
 import { useState, useEffect, ChangeEvent } from 'react';
 import { Modal } from './Modal';
 import { Overlay } from './Overlay';
+import { randomGift } from '../utils/randomGift';
 import '../assets/styles/components/List.css';
 
 interface WishListItem {
@@ -136,10 +137,21 @@ export const List = () => {
     });
   }
 
+  const getRandomGiftTitle = () => {
+    const giftTitle = randomGift();
+    setFormValues({
+      title: giftTitle,
+      recipient: formValues.recipient,
+      quantity: formValues.quantity,
+      source: formValues.source
+    });
+  }
+
   const form = () => {
     return (
       <form className="form" onSubmit={handleForm} autoComplete="off">
         <input className="form__input" type="text" name="title" value={formValues.title} onChange={handleInputChange} placeholder="New gift" required />
+        <button className="form__button form__button--random-title" type="button" onClick={getRandomGiftTitle}>Get a random gift!</button>
         <input className="form__input form__input--below" type="text" name="recipient" value={formValues.recipient} onChange={handleInputChange} placeholder="This gift is to..." required />
         <input className="form__input form__input--below" type="number" min="1" name="quantity" value={formValues.quantity} onChange={handleInputChange} placeholder="Quantity" required />
         <input className="form__input form__input--below" type="url" name="source" value={formValues.source} onChange={handleInputChange} placeholder="Image link" pattern="https://.*" required />

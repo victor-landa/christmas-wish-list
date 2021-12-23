@@ -62,7 +62,7 @@
   background: var(--gray);
 }
 
-.form__button--close-preview {
+.wish-list-preview-actions {
   margin: 1.25rem 0 0;
 }
 
@@ -144,4 +144,14 @@
   font-weight: 700;
   margin: 0;
   text-align: right;
+}
+
+@media print {
+  .wish-list-card {
+    margin: 0;
+  }
+
+  .wish-list-preview-actions {
+    display: none;
+  }
 }

@@ -46,7 +46,7 @@ export const List = () => {
         setLoading(false);
       })
       .catch(err => console.error(err));
-  }, []);
+  },);
 
   const handleForm = (e: React.SyntheticEvent) => {
     e.preventDefault();
@@ -68,6 +68,7 @@ export const List = () => {
           ) {
             repeatedItem = true;
           }
+          return 0;
         })
         if(editMode) {
           if(typeof editedItem === 'number') {
@@ -190,6 +191,10 @@ export const List = () => {
     });
   }
 
+  const handlePrint = () => {
+    window.print();
+  }
+
   const modalContent = () => {
     if(previewMode) {
       return (
@@ -200,7 +205,7 @@ export const List = () => {
               {list.map((item, index) =>
                 <li className="wish-list-card__item" key={index}>
                   <div className="wish-list-card__item-info">
-                    <img className="wish-list-card__item-image" src={item.source} />
+                    <img className="wish-list-card__item-image" src={item.source} alt={item.title} />
                     <div className="wish-list-card__item-text">
                       <span>{item.title} ({item.quantity})</span>
                       <span className="wish-list-card__item-recipient">{item.recipient}</span>
@@ -210,7 +215,10 @@ export const List = () => {
               )}
             </ul>
           : <p className="wish-list-card__message">You don't any gift yet. Add your first gift now!! 🎁</p>}
-          <button className="form__button form__button--close form__button--close-preview" type="button" onClick={handleClosePreview}>Close</button>
+          <div className="wish-list-preview-actions">
+            <button className="form__button" type="button" onClick={handlePrint}>Print</button>
+            <button className="form__button form__button--close" type="button" onClick={handleClosePreview}>Close</button>
+          </div>
         </>
       )
     } else {
@@ -277,7 +285,7 @@ export const List = () => {
               {list.map((item, index) =>
                 <li className="wish-list-card__item" key={index}>
                   <div className="wish-list-card__item-info">
-                    <img className="wish-list-card__item-image" src={item.source} />
+                    <img className="wish-list-card__item-image" src={item.source} alt={item.title} />
                     <div className="wish-list-card__item-text">
                       <span>{item.title} ({item.quantity}) - ${Number(item.price) * item.quantity}</span>
                       <span className="wish-list-card__item-recipient">{item.recipient}</span>

@@ -57,8 +57,14 @@ export const List = () => {
     if(inputTitle && inputPrice && inputRecipient && inputQuantity && inputSource) {
       if(inputTitle.value.trim() !== '' && inputPrice.value.trim() !== '' && inputRecipient.value.trim() !== '' && inputSource.value.trim() !== '') {
         let repeatedItem = false;
-        list.map(item=> {
-          if(item.title === inputTitle.value) {
+        list.map(item => {
+          if(
+            item.title === inputTitle.value &&
+            item.price === inputPrice.value &&
+            item.recipient === inputRecipient.value &&
+            item.quantity === Number(inputQuantity.value) &&
+            item.source === inputSource.value
+          ) {
             repeatedItem = true;
           }
         })
@@ -96,6 +102,13 @@ export const List = () => {
             handleToggleModal();
           }
         }
+        setFormValues({
+          title: '',
+          price: '',
+          recipient: '',
+          quantity: 1,
+          source: ''
+        });
         inputTitle.value = '';
         inputPrice.value = '';
         inputRecipient.value = '';
@@ -109,8 +122,10 @@ export const List = () => {
   const handleDeleteItem = (e: React.SyntheticEvent) => {
     const target = e.target as HTMLSpanElement;
     const title = target.dataset.itemTitle;
-    setList(list.filter(item => item.title !== title));
-    localStorage.setItem('wish-list', JSON.stringify(list.filter(item => item.title !== title)));
+    const selectedItem = list.find(item => item.title === title);
+    const selectedItemIndex = list.findIndex(item => item === selectedItem);
+    setList(list.filter((_, index) => index !== selectedItemIndex));
+    localStorage.setItem('wish-list', JSON.stringify(list.filter((_, index) => index !== selectedItemIndex)));
   }
 
   const handleEditItem = (e: React.SyntheticEvent) => {
@@ -119,6 +134,24 @@ export const List = () => {
     const selectedItem = list.find(item => item.title === title);
     const selectedItemIndex = list.findIndex(item => item === selectedItem);
     setEditMode(true);
+    setEditedItem(selectedItemIndex);
+    if(selectedItem) {
+      setFormValues({
+        title: selectedItem.title,
+        price: selectedItem.price,
+        recipient: selectedItem.recipient,
+        quantity: selectedItem.quantity,
+        source: selectedItem.source
+      });
+      handleToggleModal();
+    }
+  }
+
+  const handleDuplicateItem = (e: React.SyntheticEvent) => {
+    const target = e.target as HTMLSpanElement;
+    const title = target.dataset.itemTitle;
+    const selectedItem = list.find(item => item.title === title);
+    const selectedItemIndex = list.findIndex(item => item === selectedItem);
     setEditedItem(selectedItemIndex);
     if(selectedItem) {
       setFormValues({
@@ -220,6 +253,14 @@ export const List = () => {
                       tabIndex={0}
                       onKeyPress={(e) => e.key === 'Enter' && handleEditItem(e)}>
                       e
+                    </span>
+                    <span
+                      className="wish-list-card__action wish-list-card__action--edit"
+                      data-item-title={item.title}
+                      onClick={handleDuplicateItem}
+                      tabIndex={0}
+                      onKeyPress={(e) => e.key === 'Enter' && handleDuplicateItem(e)}>
+                      d
                     </span>
                     <span
                       className="wish-list-card__action wish-list-card__action--delete"

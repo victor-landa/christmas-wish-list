@@ -16,6 +16,7 @@ export const List = () => {
   const [list, setList] = useState<Array<WishListItem>>([]);
   const [loading, setLoading] = useState(true);
   const [modalState, setModalState] = useState(false);
+  const [previewMode, setPreviewMode] = useState(false);
   const [overlay, setOverlay] = useState(false);
   const [formValues, setFormValues] = useState<WishListItem>({
     title: '',
@@ -189,19 +190,43 @@ export const List = () => {
     });
   }
 
-  const form = () => {
-    return (
-      <form className="form" onSubmit={handleForm} autoComplete="off">
-        <input className="form__input" type="text" name="title" value={formValues.title} onChange={handleInputChange} placeholder="New gift" required />
-        <button className="form__button form__button--random-title" type="button" onClick={getRandomGiftTitle}>Get a random gift!</button>
-        <input className="form__input form__input--below" type="text" name="price" pattern="[0-9]+" value={formValues.price} onChange={handleInputChange} placeholder="Price" required />
-        <input className="form__input form__input--below" type="text" name="recipient" value={formValues.recipient} onChange={handleInputChange} placeholder="This gift is to..." required />
-        <input className="form__input form__input--below" type="number" min="1" name="quantity" value={formValues.quantity} onChange={handleInputChange} placeholder="Quantity" required />
-        <input className="form__input form__input--below" type="url" name="source" value={formValues.source} onChange={handleInputChange} placeholder="Image link" pattern="https://.*" required />
-        <button className="form__button" type="submit">{editMode ? 'Save' :  'Add'}</button>
-        <button className="form__button form__button--close" type="button" onClick={handleToggleModal}>Close</button>
-      </form>
-    )
+  const modalContent = () => {
+    if(previewMode) {
+      return (
+        <>
+          <h1 className="wish-list-card__title">Gifts</h1>
+          {list.length > 0 ?
+            <ul className="wish-list-card__items">
+              {list.map((item, index) =>
+                <li className="wish-list-card__item" key={index}>
+                  <div className="wish-list-card__item-info">
+                    <img className="wish-list-card__item-image" src={item.source} />
+                    <div className="wish-list-card__item-text">
+                      <span>{item.title} ({item.quantity})</span>
+                      <span className="wish-list-card__item-recipient">{item.recipient}</span>
+                    </div>
+                  </div>
+                </li>
+              )}
+            </ul>
+          : <p className="wish-list-card__message">You don't any gift yet. Add your first gift now!! 🎁</p>}
+          <button className="form__button form__button--close form__button--close-preview" type="button" onClick={handleClosePreview}>Close</button>
+        </>
+      )
+    } else {
+      return (
+        <form className="form" onSubmit={handleForm} autoComplete="off">
+          <input className="form__input" type="text" name="title" value={formValues.title} onChange={handleInputChange} placeholder="New gift" required />
+          <button className="form__button form__button--random-title" type="button" onClick={getRandomGiftTitle}>Get a random gift!</button>
+          <input className="form__input form__input--below" type="text" name="price" pattern="[0-9]+" value={formValues.price} onChange={handleInputChange} placeholder="Price" required />
+          <input className="form__input form__input--below" type="text" name="recipient" value={formValues.recipient} onChange={handleInputChange} placeholder="This gift is to..." required />
+          <input className="form__input form__input--below" type="number" min="1" name="quantity" value={formValues.quantity} onChange={handleInputChange} placeholder="Quantity" required />
+          <input className="form__input form__input--below" type="url" name="source" value={formValues.source} onChange={handleInputChange} placeholder="Image link" pattern="https://.*" required />
+          <button className="form__button" type="submit">{editMode ? 'Save' :  'Add'}</button>
+          <button className="form__button form__button--close" type="button" onClick={handleToggleModal}>Close</button>
+        </form>
+      )
+    }
   }
 
   const handleToggleModal = () => {
@@ -228,6 +253,19 @@ export const List = () => {
   const total = list.reduce((total, item) => {
     return total + (Number(item.price) * item.quantity);
   }, 0);
+
+
+  const handlePreview = () => {
+    setPreviewMode(true);
+    handleToggleModal();
+  }
+
+  const handleClosePreview = () => {
+    handleToggleModal();
+    setTimeout(() => {
+      setPreviewMode(false);
+    }, 500);
+  }
 
   return (
     <>
@@ -281,8 +319,9 @@ export const List = () => {
         : loading ? <p className="wish-list-card__message">Loading...</p> : <p className="wish-list-card__message">Add your first gift. Don't be a Grinch!</p>}
         <button className="form__button form__button--add" onClick={handleToggleModal}>Add gift</button>
         <button className="form__button form__button--clear" type="button" onClick={handleClearList}>Clear</button>
+        <button className="form__button" type="button" onClick={handlePreview}>Preview</button>
       </div>
-      <Modal form={form()} modalState={modalState} />
+      <Modal content={modalContent()} modalState={modalState} />
       <Overlay overlayState={overlay} />
     </>
   )

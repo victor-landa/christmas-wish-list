@@ -1,7 +1,7 @@
 .modal {
   background: var(--white);
   left: 50%;
-  max-width: 600px;
+  max-width: 550px;
   opacity: 0;
   padding: 1rem;
   position: absolute;

@@ -1,14 +1,14 @@
 import '../assets/styles/components/Modal.css';
 
 type ModalArgs = {
-  form: object;
+  content: object;
   modalState: boolean;
 }
 
-export const Modal = ({ form, modalState }: any) => {
+export const Modal = ({ content, modalState }: ModalArgs) => {
   return (
     <div className={`modal ${modalState ? 'modal--active' : ''}`}>
-      {form}
+      {content}
     </div>
   )
 }

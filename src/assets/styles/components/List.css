@@ -5,6 +5,7 @@
   max-width: 500px;
   padding: 1rem 2rem;
   width: 100%;
+  position: relative;
 }
 
 .wish-list-card__title {
@@ -146,12 +147,35 @@
   text-align: right;
 }
 
+audio {
+  display: none;
+}
+
+.wish-list-card__sound {
+  background: none;
+  border: none;
+  cursor: pointer;
+  margin: 0;
+  padding: 0;
+  position: absolute;
+  right: 2rem;
+  top: 1rem;
+}
+
+.wish-list-card__sound svg {
+  height: 30px;
+  width: 30px;
+  stroke: var(--red);
+  stroke-width: 1px;
+}
+
 @media print {
   .wish-list-card {
     margin: 0;
   }
 
-  .wish-list-preview-actions {
+  .wish-list-preview-actions,
+  .wish-list-card__sound {
     display: none;
   }
 }

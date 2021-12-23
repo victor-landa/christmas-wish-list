@@ -3,6 +3,7 @@ import { Modal } from './Modal';
 import { Overlay } from './Overlay';
 import { randomGift } from '../utils/randomGift';
 import '../assets/styles/components/List.css';
+const music = require('../assets/static/jingle-bells.mp3');
 
 interface WishListItem {
   title: string;
@@ -27,6 +28,7 @@ export const List = () => {
   });
   const [editMode, setEditMode] = useState(false);
   const [editedItem, setEditedItem] = useState<Number>();
+  const [playMusic, setPlayMusic] = useState(false);
 
   const listPromise = new Promise(resolve => {
     setTimeout(() => {
@@ -184,7 +186,7 @@ export const List = () => {
     const giftTitle = randomGift();
     setFormValues({
       title: giftTitle,
-      price: formValues.title,
+      price: formValues.price,
       recipient: formValues.recipient,
       quantity: formValues.quantity,
       source: formValues.source
@@ -275,10 +277,44 @@ export const List = () => {
     }, 500);
   }
 
+  const handleMusic = () => {
+    setPlayMusic(!playMusic);
+  }
+
+  useEffect(() => {
+    const audio = document.querySelector('audio');
+    if(audio) {
+      if(playMusic) {
+        audio.play();
+      } else {
+        audio.pause();
+      }
+    }
+  }, [playMusic])
+
   return (
     <>
       <div className="wish-list-card">
         <h1 className="wish-list-card__title">Gifts</h1>
+        <audio controls loop>
+          <source src={music} type="audio/mpeg" />
+        </audio>
+        <button className="wish-list-card__sound" onClick={handleMusic}>
+          {playMusic ?
+            <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-volume" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+              <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+              <path d="M15 8a5 5 0 0 1 0 8"></path>
+              <path d="M17.7 5a9 9 0 0 1 0 14"></path>
+              <path d="M6 15h-2a1 1 0 0 1 -1 -1v-4a1 1 0 0 1 1 -1h2l3.5 -4.5a0.8 .8 0 0 1 1.5 .5v14a0.8 .8 0 0 1 -1.5 .5l-3.5 -4.5"></path>
+            </svg>
+          :
+            <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-volume-3" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+              <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+              <path d="M6 15h-2a1 1 0 0 1 -1 -1v-4a1 1 0 0 1 1 -1h2l3.5 -4.5a0.8 .8 0 0 1 1.5 .5v14a0.8 .8 0 0 1 -1.5 .5l-3.5 -4.5"></path>
+              <path d="M16 10l4 4m0 -4l-4 4"></path>
+            </svg>
+          }
+        </button>
         {list.length > 0 && !loading ?
           <>
             <ul className="wish-list-card__items">
@@ -326,8 +362,12 @@ export const List = () => {
           </>
         : loading ? <p className="wish-list-card__message">Loading...</p> : <p className="wish-list-card__message">Add your first gift. Don't be a Grinch!</p>}
         <button className="form__button form__button--add" onClick={handleToggleModal}>Add gift</button>
-        <button className="form__button form__button--clear" type="button" onClick={handleClearList}>Clear</button>
-        <button className="form__button" type="button" onClick={handlePreview}>Preview</button>
+        {list.length > 0 &&
+          <>
+            <button className="form__button form__button--clear" type="button" onClick={handleClearList}>Clear</button>
+            <button className="form__button" type="button" onClick={handlePreview}>Preview</button>
+          </>
+        }
       </div>
       <Modal content={modalContent()} modalState={modalState} />
       <Overlay overlayState={overlay} />

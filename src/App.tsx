@@ -1,8 +1,12 @@
 import { List } from './components/List';
+import { Snowfall } from './components/Snowfall';
 
 function App() {
   return (
-    <List />
+    <>
+      <Snowfall />
+      <List />
+    </>
   );
 }
 

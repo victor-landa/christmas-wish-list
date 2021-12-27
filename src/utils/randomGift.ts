@@ -4,8 +4,10 @@ interface Gift {
   source: string;
 }
 
+interface Gifts extends Array<Gift>{}
+
 export const randomGift = () => {
-  const giftTitles = <Array<Gift>>[
+  const giftTitles: Gifts = [
     {
       title: 'Ready or Not',
       price: '349',

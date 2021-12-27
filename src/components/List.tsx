@@ -183,13 +183,13 @@ export const List = () => {
   }
 
   const getRandomGiftTitle = () => {
-    const giftTitle = randomGift();
+    const gift = randomGift();
     setFormValues({
-      title: giftTitle,
-      price: formValues.price,
+      title: gift.title,
+      price: gift.price,
       recipient: formValues.recipient,
       quantity: formValues.quantity,
-      source: formValues.source
+      source: gift.source
     });
   }
 

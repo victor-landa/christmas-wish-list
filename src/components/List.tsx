@@ -1,4 +1,5 @@
 import { useState, useEffect, ChangeEvent } from 'react';
+import { v4 as uuidv4 } from 'uuid';
 import { Modal } from './Modal';
 import { Overlay } from './Overlay';
 import { randomGift } from '../utils/randomGift';
@@ -6,6 +7,7 @@ import '../assets/styles/components/List.css';
 const music = require('../assets/static/jingle-bells.mp3');
 
 interface WishListItem {
+  id: string;
   title: string;
   price: string;
   recipient: string;
@@ -20,6 +22,7 @@ export const List = () => {
   const [previewMode, setPreviewMode] = useState(false);
   const [overlay, setOverlay] = useState(false);
   const [formValues, setFormValues] = useState<WishListItem>({
+    id: '',
     title: '',
     price: '',
     recipient: '',
@@ -87,6 +90,7 @@ export const List = () => {
             setList([
               ...list,
               {
+                id: uuidv4(),
                 title: inputTitle.value.trim(),
                 price: inputPrice.value.trim(),
                 recipient: inputRecipient.value.trim(),
@@ -96,6 +100,7 @@ export const List = () => {
             localStorage.setItem('wish-list', JSON.stringify([
               ...list,
               {
+                id: uuidv4(),
                 title: inputTitle.value.trim(),
                 price: inputPrice.value.trim(),
                 recipient: inputRecipient.value.trim(),
@@ -107,6 +112,7 @@ export const List = () => {
           }
         }
         setFormValues({
+          id: '',
           title: '',
           price: '',
           recipient: '',
@@ -125,22 +131,22 @@ export const List = () => {
 
   const handleDeleteItem = (e: React.SyntheticEvent) => {
     const target = e.target as HTMLSpanElement;
-    const title = target.dataset.itemTitle;
-    const selectedItem = list.find(item => item.title === title);
-    const selectedItemIndex = list.findIndex(item => item === selectedItem);
+    const id = target.dataset.itemId;
+    const selectedItemIndex = list.findIndex(item => item.id === id);
     setList(list.filter((_, index) => index !== selectedItemIndex));
     localStorage.setItem('wish-list', JSON.stringify(list.filter((_, index) => index !== selectedItemIndex)));
   }
 
   const handleEditItem = (e: React.SyntheticEvent) => {
     const target = e.target as HTMLSpanElement;
-    const title = target.dataset.itemTitle;
-    const selectedItem = list.find(item => item.title === title);
+    const id = target.dataset.itemId;
+    const selectedItem = list.find(item => item.id === id);
     const selectedItemIndex = list.findIndex(item => item === selectedItem);
     setEditMode(true);
     setEditedItem(selectedItemIndex);
     if(selectedItem) {
       setFormValues({
+        id: selectedItem.id,
         title: selectedItem.title,
         price: selectedItem.price,
         recipient: selectedItem.recipient,
@@ -153,12 +159,13 @@ export const List = () => {
 
   const handleDuplicateItem = (e: React.SyntheticEvent) => {
     const target = e.target as HTMLSpanElement;
-    const title = target.dataset.itemTitle;
-    const selectedItem = list.find(item => item.title === title);
+    const id = target.dataset.itemId;
+    const selectedItem = list.find(item => item.id === id);
     const selectedItemIndex = list.findIndex(item => item === selectedItem);
     setEditedItem(selectedItemIndex);
     if(selectedItem) {
       setFormValues({
+        id: selectedItem.id,
         title: selectedItem.title,
         price: selectedItem.price,
         recipient: selectedItem.recipient,
@@ -185,6 +192,7 @@ export const List = () => {
   const getRandomGiftTitle = () => {
     const gift = randomGift();
     setFormValues({
+      id: gift.id,
       title: gift.title,
       price: gift.price,
       recipient: formValues.recipient,
@@ -246,6 +254,7 @@ export const List = () => {
       if(overlay && modalState) {
         setEditMode(false);
         setFormValues({
+          id: '',
           title: '',
           price: '',
           recipient: '',
@@ -330,7 +339,7 @@ export const List = () => {
                   <div className="wish-list-card__actions">
                     <span
                       className="wish-list-card__action wish-list-card__action--edit"
-                      data-item-title={item.title}
+                      data-item-id={item.id}
                       onClick={handleEditItem}
                       tabIndex={0}
                       onKeyPress={(e) => e.key === 'Enter' && handleEditItem(e)}>
@@ -338,7 +347,7 @@ export const List = () => {
                     </span>
                     <span
                       className="wish-list-card__action wish-list-card__action--edit"
-                      data-item-title={item.title}
+                      data-item-id={item.id}
                       onClick={handleDuplicateItem}
                       tabIndex={0}
                       onKeyPress={(e) => e.key === 'Enter' && handleDuplicateItem(e)}>
@@ -346,7 +355,7 @@ export const List = () => {
                     </span>
                     <span
                       className="wish-list-card__action wish-list-card__action--delete"
-                      data-item-title={item.title}
+                      data-item-id={item.id}
                       onClick={handleDeleteItem}
                       tabIndex={0}
                       onKeyPress={(e) => e.key === 'Enter' && handleDeleteItem(e)}>

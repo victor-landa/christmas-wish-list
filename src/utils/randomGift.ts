@@ -13,57 +13,63 @@ export const randomGift = () => {
   const giftTitles: Gifts = [
     {
       id: uuidv4(),
-      title: 'Ready or Not',
-      price: '349',
-      source: 'https://cdn.cloudflare.steamstatic.com/steam/apps/1144200/header.jpg?t=1639785519'
+      title: 'Headphones',
+      price: '999',
+      source: 'https://store.storeimages.cdn-apple.com/8756/as-images.apple.com/is/MX412?wid=500&hei=500&fmt=jpeg&qlt=95&.v=1580420170758'
     },
     {
       id: uuidv4(),
-      title: 'FIFA 22',
-      price: '559',
-      source: 'https://cdn.cloudflare.steamstatic.com/steam/apps/1506830/header.jpg?t=1639481807'
-    },
-    {
-      id: uuidv4(),
-      title: 'Forza Horizon 5',
-      price: '2069',
-      source: 'https://cdn.cloudflare.steamstatic.com/steam/apps/1551360/header.jpg?t=1640271738'
-    },
-    {
-      id: uuidv4(),
-      title: 'Apex Legends',
-      price: '321',
-      source: 'https://cdn.cloudflare.steamstatic.com/steam/apps/1172470/header.jpg?t=1638900075'
-    },
-    {
-      id: uuidv4(),
-      title: 'The Sims 4',
-      price: '107',
-      source: 'https://cdn.cloudflare.steamstatic.com/steam/apps/1222670/header.jpg?t=1638471912'
-    },
-    {
-      id: uuidv4(),
-      title: 'The Witcher 3: Wild Hunt',
-      price: '69',
-      source: 'https://cdn.cloudflare.steamstatic.com/steam/apps/292030/header.jpg?t=1621939214'
-    },
-    {
-      id: uuidv4(),
-      title: 'Sea of Thieves',
+      title: 'Desk lamp',
       price: '199',
-      source: 'https://cdn.cloudflare.steamstatic.com/steam/apps/1172620/header.jpg?t=1638484040'
+      source: 'https://m.media-amazon.com/images/I/61Ckk6bdzwL._AC_SL1500_.jpg'
     },
     {
       id: uuidv4(),
-      title: 'Rust',
-      price: '246',
-      source: 'https://cdn.cloudflare.steamstatic.com/steam/apps/252490/header_alt_assets_14.jpg?t=1640216853'
+      title: 'Ukulele',
+      price: '99',
+      source: 'https://m.media-amazon.com/images/I/71CknfWH33L._AC_SL1500_.jpg'
     },
     {
       id: uuidv4(),
-      title: 'Cyberpunk 2077',
-      price: '649',
-      source: 'https://cdn.cloudflare.steamstatic.com/steam/apps/1091500/header.jpg?t=1621944801'
+      title: 'Watch',
+      price: '149',
+      source: 'https://m.media-amazon.com/images/I/71NCQcllSyL._AC_SL1500_.jpg'
+    },
+    {
+      id: uuidv4(),
+      title: 'Xylophone',
+      price: '189',
+      source: 'https://m.media-amazon.com/images/I/71bIcpXz3rL._AC_SL1500_.jpg'
+    },
+    {
+      id: uuidv4(),
+      title: 'Wristband',
+      price: '10',
+      source: 'https://m.media-amazon.com/images/I/91ZtpcU5J+L._AC_SL1500_.jpg'
+    },
+    {
+      id: uuidv4(),
+      title: 'Nintendo Switch',
+      price: '699',
+      source: 'https://m.media-amazon.com/images/I/61-PblYntsL._AC_SL1500_.jpg'
+    },
+    {
+      id: uuidv4(),
+      title: 'Mario Kart 8 Deluxe',
+      price: '49',
+      source: 'https://m.media-amazon.com/images/I/71zMv5+rx5S._AC_SL1500_.jpg'
+    },
+    {
+      id: uuidv4(),
+      title: 'Super Smash Bros Ultimate',
+      price: '49',
+      source: 'https://m.media-amazon.com/images/I/81qzH0RY3DS._AC_SL1500_.jpg'
+    },
+    {
+      id: uuidv4(),
+      title: 'Fire TV Stick',
+      price: '50',
+      source: 'https://m.media-amazon.com/images/I/51fslL7dbqL._AC_SL1000_.jpg'
     }
   ];
   const randomTitle = giftTitles[Math.floor(Math.random() * giftTitles.length)];

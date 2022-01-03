@@ -1,15 +1,30 @@
+.snowfall-container {
+  min-height: 100%;
+  overflow: hidden;
+  position: absolute;
+  top: 0;
+  width: 100%;
+}
+
 .snowflake {
-  animation-duration: 8s;
   animation: snowflake linear forwards;
   filter: invert(100%) sepia(30%) saturate(4857%) hue-rotate(167deg) brightness(112%) contrast(100%);
   height: 30px;
   position: absolute;
-  top: -30px;
   width: 30px;
 }
 
 @keyframes snowflake {
+  from {
+    top: -30px;
+  }
   to {
-    transform: translateY(100vh);
+    top: 110%;
+  }
+}
+
+@media print {
+  .snowflake {
+    display: none;
   }
 }

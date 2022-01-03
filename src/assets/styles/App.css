@@ -5,8 +5,7 @@
   --gray-3: #999999;
   --red: #ea4630;
   --red-2: #bb2528;
-  --green: #165b33;
-  --green-2: #146b3a;
+  --pink: #e7a5a5;
   --yellow: #f8b229;
   --black-opacity-50: rgba(0, 0, 0, 0.5);
 }
@@ -18,7 +17,7 @@
 body {
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
-  background: var(--green);
+  background: var(--pink);
   font-family: 'Montserrat', sans-serif;
   font-size: 16px;
   margin: 0;

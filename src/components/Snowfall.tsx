@@ -9,17 +9,27 @@ export const Snowfall = () => {
   }, [])
 
   const createSnowfall = () => {
-    const snowFlakeEl = document.createElement('img');
-    snowFlakeEl.src = snowflakeImage;
-    snowFlakeEl.classList.add('snowflake');
-    snowFlakeEl.style.left = Math.random() * window.innerWidth + 'px';
-    snowFlakeEl.style.animationDuration = Math.random() + 8 + 's';
-    snowFlakeEl.style.opacity = `${Math.random()}`;
-    document.body.appendChild(snowFlakeEl);
+    const snowflakeEl = document.createElement('img');
+    const snowfallContainer = document.querySelector('.snowfall-container');
+    snowflakeEl.src = snowflakeImage;
+    snowflakeEl.classList.add('snowflake');
+    snowflakeEl.style.left = Math.random() * window.innerWidth + 'px';
+    snowflakeEl.style.animationDuration = Math.random() + 13 + 's';
+    snowflakeEl.style.opacity = `${Math.random()}`;
+    if(snowfallContainer) {
+      snowfallContainer.appendChild(snowflakeEl);
+    }
     setTimeout(() => {
-      snowFlakeEl.remove();
-    }, 8000);
+      snowflakeEl.remove();
+    }, 13000);
   }
+
+  window.onbeforeprint = () => {
+    const snowfallContainer = document.querySelector('.snowfall-container');
+    if(snowfallContainer) {
+      snowfallContainer.innerHTML = '';
+    }
+  };
 
   return (
     <>

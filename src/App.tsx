@@ -4,7 +4,9 @@ import { Snowfall } from './components/Snowfall';
 function App() {
   return (
     <>
-      <Snowfall />
+      <div className="snowfall-container">
+        <Snowfall />
+      </div>
       <List />
     </>
   );
